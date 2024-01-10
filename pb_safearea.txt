@@ -1,0 +1,55 @@
+Scafold
+
+import 'package:flutter/material.dart';
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Scafold Demo"),
+        ),
+        body: Center(
+          child: Text('This is a first App',
+            style: TextStyle(
+              fontSize: 40.0,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+-----------------------
+safe Area
+
+Text without Safe Area
+
+import 'package:flutter/material.dart';
+void main() {
+ runApp(const MaterialApp(
+ home: Text("Text Without SafeArea"),
+ ));
+}
+
+----------
+
+Text with Safe Area
+
+import 'package:flutter/material.dart';
+void main() {
+ runApp(MaterialApp(
+ home: SafeArea(
+ child: Text("Text With SafeArea",
+ textAlign: TextAlign.center,
+ style: TextStyle(
+ fontSize: 40,
+ fontWeight: FontWeight.w800,
+ color: Colors.deepOrangeAccent,
+ ),
+ ),
+ ),
+ ));
+}

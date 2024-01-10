@@ -1,0 +1,133 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(title: Text('QUIZ'), centerTitle: true,),
+      body: QuizPage(),
+    ),
+  ));
+}
+
+class QuizPage extends StatefulWidget {
+  //const QuizPage({super.key});
+  const QuizPage({Key? key}) : super(key: key);
+
+  @override
+  State<QuizPage> createState() => _QuizPageState();
+}
+class Question{
+  final String qText ;
+  final bool qAns;
+  Question({required this.qText, required this.qAns});
+}
+
+class Questions{
+  List<Question> questionBank = [
+    Question(qText: "Question1", qAns: true),
+    Question(qText: "Question2", qAns: false),
+    Question(qText: "Question3", qAns: true),
+
+  ];
+}
+class _QuizPageState extends State<QuizPage> {
+  int questionNumber = 0; // stores the questionNumber, default = first
+  int currentScore = 0; // final score initialized to 0
+  Questions questions = Questions(); // Create an object of the Question Class
+
+  void updateQuestionNumber() {
+    setState(() {
+      questionNumber = questionNumber + 1; // Increments the Question Number
+      print('$questionNumber');
+    });
+  }
+  bool checkquestionNumber(int questionNumber) {
+    return questionNumber < questions.questionBank.length ? true : false;
+  }
+  void udpateCurrentScore(bool choice, int question_number) {
+// based on the choice (T/F button) score will be updated
+    if (questions.questionBank.length == question_number) {
+      print("End of questions");
+    } else {
+// checks the current user input against the list answer, if true increments the count
+      if (questions.questionBank[question_number].qAns == choice) {
+        setState(() {
+          currentScore++;
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Center(
+              child: Text(
+                checkquestionNumber(questionNumber)?
+                questions.questionBank[questionNumber].
+                qText.toString():"END",
+                style: TextStyle(
+                  fontSize: 25.0,
+                ),),
+            ),
+          ),
+          SizedBox(height: 60.0,),
+          if(checkquestionNumber(questionNumber))
+            ElevatedButton(
+              child: Text('True'),
+              onPressed: (){
+                setState(() {
+                  if(questionNumber == questions.questionBank.length){
+                    print('End of Questions');
+                  }else{
+                    udpateCurrentScore(true,questionNumber) ;
+                    updateQuestionNumber();
+                  }
+                });
+              },
+            ),
+          SizedBox(height: 20.0,),
+          if(checkquestionNumber(questionNumber))
+            ElevatedButton(
+              child: Text('False'),
+              onPressed: (){
+                setState(() {
+                  if(questionNumber == questions.questionBank.length){
+                    print('End of Questions');
+                  }else{
+                    udpateCurrentScore(false,questionNumber) ;
+                    updateQuestionNumber();
+                  }
+                });
+              },
+            ),
+          SizedBox(height: 100.0,),
+
+          Padding(
+            padding: EdgeInsets.all(30.0),
+            child: Center(
+              child: Text(
+                'Your current Score',
+                style: TextStyle(fontSize: 30.0),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(30.0),
+            child: Center(
+              child: Text(
+                '$currentScore',
+                style: TextStyle(fontSize: 30.0),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
